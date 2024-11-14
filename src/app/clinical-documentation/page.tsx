@@ -27,6 +27,11 @@ export default function ClinicalDocumentation() {
           <p className="mb-2">Generate comprehensive discharge summaries for patients.</p>
           <Link href="#" className="text-blue-500 hover:underline">Create summary</Link>
         </div>
+        <div className="bg-white p-4 rounded-lg shadow">
+          <h2 className="text-xl font-semibold mb-2">EMS Documentation</h2>
+          <p className="mb-2">Access and fill out EMS-specific documentation forms.</p>
+          <Link href="/clinical-documentation/ems" className="text-blue-500 hover:underline">Go to EMS forms</Link>
+        </div>
       </div>
       <div className="mt-8">
         <Link href="/" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
