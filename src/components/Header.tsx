@@ -3,20 +3,21 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [username, setUsername] = useState('')
+  const router = useRouter()
 
-  const handleLogin = () => {
-    // This is a placeholder for the actual login logic
-    setIsLoggedIn(true)
-    setUsername('John Doe') // This would typically come from your authentication system
-  }
-
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    setUsername('')
+  const handleAuthClick = () => {
+    if (isLoggedIn) {
+      // Implement logout logic here
+      setIsLoggedIn(false)
+      setUsername('')
+    } else {
+      router.push('/auth')
+    }
   }
 
   return (
@@ -34,11 +35,11 @@ export default function Header() {
               <span className="text-sm">Welcome, {username}!</span>
             )}
             <Button
-              onClick={isLoggedIn ? handleLogout : handleLogin}
+              onClick={handleAuthClick}
               variant="outline"
               className="bg-white text-[#319df2] hover:bg-gray-100 border-white"
             >
-              {isLoggedIn ? 'Logout' : 'Login'}
+              {isLoggedIn ? 'Logout' : 'Login / Register'}
             </Button>
           </div>
         </nav>
