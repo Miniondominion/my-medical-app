@@ -4,7 +4,7 @@ import { ClipboardList, FlaskRoundIcon as Flask } from 'lucide-react'
 export default function Home() {
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-12">Welcome to MedDoc App</h1>
+      <h1 className="text-4xl font-bold text-center mb-12">Welcome to EduDoc</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Link href="/clinical-documentation" className="block group">
           <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full">
