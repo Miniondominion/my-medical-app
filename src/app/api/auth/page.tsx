@@ -1,114 +1,84 @@
-'use client'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-export default function AuthPage() {
-  const [loginEmail, setLoginEmail] = useState('')
-  const [loginPassword, setLoginPassword] = useState('')
-  const [registerName, setRegisterName] = useState('')
-  const [registerEmail, setRegisterEmail] = useState('')
-  const [registerPassword, setRegisterPassword] = useState('')
-  const [registerRole, setRegisterRole] = useState('student')
-  const [error, setError] = useState('')
-  const router = useRouter()
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: loginEmail, password: loginPassword })
-    })
-
-    const data = await res.json()
-
-    if (data.success) {
-      router.push('/dashboard')
-    } else {
-      setError(data.message)
+export default function Home() {
+  const features = [
+    {
+      title: 'Streamlined Documentation',
+      description: 'Efficiently create and manage medical records with our intuitive interface.',
+      icon: '/icon-document.svg',
+    },
+    {
+      title: 'Secure & Compliant',
+      description: 'HIPAA-compliant platform ensuring the highest level of data security and privacy.',
+      icon: '/icon-security.svg',
+    },
+    {
+      title: 'Collaborative Platform',
+      description: 'Easily share and collaborate on medical documentation with your team.',
+      icon: '/icon-collaboration.svg',
     }
-  }
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: registerName, email: registerEmail, password: registerPassword, role: registerRole })
-    })
-
-    const data = await res.json()
-
-    if (data.success) {
-      router.push('/dashboard')
-    } else {
-      setError(data.message)
-    }
-  }
+  ]
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Login / Register</h1>
-      <Tabs defaultValue="login" className="w-full max-w-md">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login">Login</TabsTrigger>
-          <TabsTrigger value="register">Register</TabsTrigger>
-        </TabsList>
-        <TabsContent value="login">
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <Label htmlFor="loginEmail">Email</Label>
-              <Input id="loginEmail" type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-grow">
+        <section className="py-20 bg-gradient-to-b from-primary/10 to-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+                Streamline Your Medical Documentation
+              </h1>
+              <p className="text-xl mb-8 text-muted-foreground">
+                EduDoc helps healthcare professionals manage medical documentation efficiently and securely.
+              </p>
+              <div className="flex justify-center space-x-4">
+                <Button asChild size="lg">
+                  <Link href="/get-started">Get Started</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link href="/learn-more">Learn More</Link>
+                </Button>
+              </div>
             </div>
-            <div>
-              <Label htmlFor="loginPassword">Password</Label>
-              <Input id="loginPassword" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold mb-10 text-center text-primary">Key Features</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {features.map((feature, index) => (
+                <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                  <CardHeader>
+                    <div className="w-16 h-16 mx-auto mb-4">
+                      <Image
+                        src={feature.icon}
+                        alt={feature.title}
+                        width={64}
+                        height={64}
+                        className="text-primary"
+                      />
+                    </div>
+                    <CardTitle className="text-xl font-semibold text-center">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-center text-muted-foreground">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-            <Button type="submit" className="w-full">Login</Button>
-          </form>
-        </TabsContent>
-        <TabsContent value="register">
-          <form onSubmit={handleRegister} className="space-y-4">
-            <div>
-              <Label htmlFor="registerName">Name</Label>
-              <Input id="registerName" type="text" value={registerName} onChange={(e) => setRegisterName(e.target.value)} required />
-            </div>
-            <div>
-              <Label htmlFor="registerEmail">Email</Label>
-              <Input id="registerEmail" type="email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} required />
-            </div>
-            <div>
-              <Label htmlFor="registerPassword">Password</Label>
-              <Input id="registerPassword" type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} required />
-            </div>
-            <div>
-              <Label htmlFor="registerRole">Role</Label>
-              <Select value={registerRole} onValueChange={setRegisterRole}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Button type="submit" className="w-full">Register</Button>
-          </form>
-        </TabsContent>
-      </Tabs>
-      {error && <p className="text-red-500 mt-4">{error}</p>}
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-gray-800 text-white py-8 mt-auto">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2023 EduDoc. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   )
 }
